@@ -1,0 +1,327 @@
+html {
+    font-family: sans-serif;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	border: none;
+}
+
+/* table */
+
+table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+th {
+    background-color: black;
+    color: white;
+}
+
+
+/* Layout */
+
+.control-panel {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    bottom: 0px;
+    width: 400px;
+	padding-right: 15px;
+    overflow: hidden;
+}
+
+#treeview  {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+#separator {
+	position: absolute;
+	top: 50px;
+	bottom: 0px;
+	width: 5px;
+	z-index: 3;
+	background-color: lightgray;
+	border-left: 1px solid black;
+}
+#separator:hover, #separator.active {
+	background-color: purple;
+	cursor: e-resize;
+}
+
+#detail-area {
+    position: absolute;
+    padding: 10px;
+    top: 50px;
+    right: 160px;
+    bottom: 0px;
+    overflow: auto;
+}
+
+#json-slicer p {
+    position: absolute;
+    z-index: 3;
+    margin: 0px;
+    padding: 5px;
+    top: 0px;
+    right: 10px;
+    background-color: white;
+    border-left: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+
+
+/* Treeview */
+
+#scrollbar {
+    position: absolute;
+    z-index: 3;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 10px;
+    background-color: lightgray;
+}
+
+#scrollbar-viewport {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 10px;
+    height: 200px;
+    background-color: gray;
+}
+#scrollbar-viewport.active, 
+#scrollbar-viewport:hover {
+	background-color: purple;
+}
+
+.node {
+    white-space: nowrap;
+    height: 20px;
+}
+
+.node-icons, .icon, .node-label, .node-text {
+    white-space: nowrap;
+    height: 20px;
+    line-height: 20px;    
+    vertical-align: top;
+    display: inline-block;
+}
+
+.node-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.icon {
+    width: 20px;
+}
+
+.node-label {
+    margin-left: 24px;
+    position: relative;
+}
+
+.disclosure-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-image: url('images/plus.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    vertical-align: bottom;
+    display: inline-block;
+    visibility: hidden;
+    z-index: 2;
+}
+
+.node-label-wire {
+    position: absolute;
+    display: inline-block;
+    width: 15px;
+    height: 0px;
+    border-top: 1px dotted #404040;
+    top: 9px;
+    left: -14px;
+    z-index: 1;
+}
+.wire {
+    position: absolute;
+    border-left: 1px dotted #404040;
+    width: 0px;
+    z-index: 1;
+}
+
+.internal-node .disclosure-icon {
+    visibility: visible;
+}
+.open .disclosure-icon {
+    background-image: url('images/minus.png');
+}
+
+#json-input-form .textarea-wrapper {
+	position: absolute;
+	top: 90px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.control-panel p {
+	padding: 10px;
+	text-align: center;
+}
+
+.textarea-wrapper textarea {
+	height: 100%;
+	width: 100%;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default!important;
+}
+
+
+.popup-backdrop {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 4;
+}
+
+.popup {
+	z-index: 5;
+	position: absolute;
+	padding: 10px;
+	padding-bottom: 40px;
+	left: 50%;
+	top: 50%;
+	margin-left: -210px;
+	margin-top: -150px;
+	background-color: white;	
+}
+
+.popup textarea {
+	width: 400px;
+	height: 300px;
+	top: 0px;
+	bottom: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.popup button {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;	
+}
+
+.popup span {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;	
+}
+
+#header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 160px;
+	border-bottom: 1px solid black;
+	height: 49px;
+}
+
+h1 {
+	margin: 0px;
+	padding: 0px;
+	height: 30px;
+	font-size: 30px;
+	line-height: 30px;
+	cursor: pointer;
+}
+h1+p {
+	margin: 0px;
+	padding: 0px;
+	height: 19px;
+	line-height: 19px;
+	font-size: 16px;
+}
+
+.tutorial {
+	max-width: 913px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.tutorial img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	max-width: 100%;
+	box-shadow: 0px 0px 20px 0px gray;
+}
+
+.tutorial h2 {
+	clear: both;
+}
+
+#ad {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 160px;
+	background-color: black;
+}
+
+#social {
+	position: absolute;
+	top: 0px;
+	left: 350px;
+	right: 160px;
+	height: 49px;
+    padding-top: 14px;
+    padding-right: 10px;
+}
+.social-button {
+    display: inline-block;
+    width: 128px;
+    height: 23px;
+    overflow: hidden;
+    padding-left: 20px;
+    text-align: right;
+}
+.social-button.googleplus {
+    margin-right: -54px;
+}
+
+.icon.string {background-image: url('images/string.png');}
+.icon.number {background-image: url('images/number.png');}
+.icon.boolean {background-image: url('images/boolean.png');}
+.icon.empty {background-image: url('images/empty.png');}
+.icon.array {background-image: url('images/array.png');}
+.icon.object {background-image: url('images/object.png');}

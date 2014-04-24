@@ -67,9 +67,9 @@ module.exports = function(grunt) {
 		files : [
 		{
 			expand : true,
-			cwd : 'src/images/',
-			src : ['**'],
-			dest : 'build-result/images'
+			cwd : 'src/',
+			src : ['images/**', 'style.css'],
+			dest : 'build-result'
 		}]
 	};
 	config.clean.build = {

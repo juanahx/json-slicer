@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 		}
 	};
 
-	grunt.registerTask('deploy', ['default', 'clean:deploy', 'copy:deploy']);
+	grunt.registerTask('deploy', ['clean:deploy', 'copy:deploy']);
 
 	grunt.initConfig(config);
 };

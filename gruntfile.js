@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 	config.concat.build = {
 		src : ['src/js/high-performance-treeview.js',
 				'src/js/scrollbar-custom-binding.js',
-				'src/js/json-slicer.js.js'],
+				'src/js/json-slicer.js'],
 		dest : 'work/<%= pkg.name %>.js'
 	};
 	config.uglify.build = {

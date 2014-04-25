@@ -7,88 +7,80 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-    	<div id="header">
-        	<h1 data-bind="click: function() {window.location.reload();}">JSON Slicer</h1>
-        	<p><em>"Please take another slice of JSON"</em></p>
-    	</div>
-        <div id="detail-area" data-bind="style: {left: (width() + 20) + 'px'}">
-        	<div class="tutorial">
-				<p>JSON slicer allows you to</p>
-	
-				<ul>
-					<li><strong>explore</strong> a large and/or complex JSON structure,</li>
-					<li><strong>display nested tables</strong> in a much nicer way than any debugger
-						console,</li>
-					<li>and <strong>export tables to Excel</strong> when a sophisticated analysis is
-						needed.</li>
-				</ul>
-				<p>It can be especially useful when debugging interactions that
-					involve complex structured business data in JSON format.</p>
-	
-				<h2>Explore</h2>
-		        	
-	        	<p>Paste a JSON string in the dedicated area, and the JSON tree will show up.</p>
-	        	<p>The treeview has virtual scrolling, so it's not afraid of large data.</p>
-	        	<img src="images/tutorial/treeview.png" width="404" height="205">
-	
-	        	<h2>Zoom on nested tables</h2>
-	        	
-	        	<p>Click on a table node. The table will show up on the right side of the screen. Please
-	        	note that when the table contains objects, the keys of the objects become the 
-	        	columns of the table. Isn't that nice ?</p>
-	        	<img src="images/tutorial/tables.png" width="584" height="311">
-	
-	        	<h2>Copy to Excel</h2>
-	        	
-	        	<p>On large tables, use the "Copy to Excel" button to export data for further analysis. Hit CTRL + C, then paste in Excel.</p>
-	        	<img src="images/tutorial/excel.png" width="913" height="720">
-	        	
-	        	<h2>How do I start ?</h2>
-	        	<p>Paste your JSON string in the text area to the left of the screen.</p>
-        	</div>
+        <div id="header">
+            <h1 data-bind="click: function() {window.location.reload();}">JSON Slicer</h1>
+            <p><em>"Please take another slice of JSON"</em></p>
         </div>
-        <div id="json-input-form" class="control-panel" data-bind="visible: treeview() === null, style: {'width': width() + 'px'}">
-            <p>Paste your JSON in the text area below<br>or, 
-                <a href="javascript:void(0);" data-bind="click: showExample">click here to see a sample.</a></p>
+        <div id="detail-area" data-bind="style: {left: (width() + 20) + 'px'}">
+            <div class="tutorial">
+                <p>JSON slicer allows you to</p>
+
+                <ul>
+                    <li><strong>explore</strong> a large and/or complex JSON structure,</li>
+                    <li><strong>display nested tables</strong> in a much nicer way than any debugger
+                        console,</li>
+                    <li>and <strong>export tables to Excel</strong> when a sophisticated analysis is
+                        needed.</li>
+                </ul>
+                <p>It can be especially useful when debugging interactions that
+                    involve complex structured business data in JSON format.</p>
+
+                <h2>Explore</h2>
+
+                <p>Paste a JSON string in the dedicated area, and the JSON tree will show up.</p>
+                <p>The treeview has virtual scrolling, so it's not afraid of large data.</p>
+                <img src="images/tutorial/treeview.png" width="404" height="205">
+
+                <h2>Zoom on nested tables</h2>
+
+                <p>Click on a table node. The table will show up on the right side of the screen. Please
+                    note that when the table contains objects, the keys of the objects become the 
+                    columns of the table. Isn't that nice ?</p>
+                <img src="images/tutorial/tables.png" width="584" height="311">
+
+                <h2>Copy to Excel</h2>
+
+                <p>On large tables, use the "Copy to Excel" button to export data for further analysis. Hit CTRL + C, then paste in Excel.</p>
+                <img src="images/tutorial/excel.png" width="913" height="720">
+
+                <h2>How do I start ?</h2>
+                <p>Paste your JSON string in the text area to the left of the screen.</p>
+            </div>
+        </div>
+        <div id="json-input-form" class="control-panel" data-bind="style: {'width': width() + 'px'}">
+            <p><a href="javascript:void(0);" data-bind="click: showExample">Load sample</a></p>
             <div class="textarea-wrapper"><textarea data-bind="value: jsonString"></textarea></div>
         </div>
-        <!-- ko if: treeview() !== null -->
         <div id="json-slicer" class="control-panel" data-bind="with: treeview(), style: {'width': width() + 'px'}">
-        	<div id="treeview">
-	            <div id="treeview-lines" data-bind="foreach: visibleLines()">
-	                <div data-bind="style: {'paddingLeft': indentation * 20 + 'px'}, css: {node: true, open: node.open, 'internal-node': node.canHaveChildren()}">
-	                    <span class="disclosure-icon" data-bind="click: function() {$parent.toggleNodeOpen(node);}"></span>
-	                    
-	                    <span class="node-label">
-	                        <span class="node-label-wire"></span>
-	                        <span class="node-icons" data-bind="foreach: slicer.getIcons(node)">
-	                            <span data-bind="attr: {'class': 'icon ' + image}"></span>
-	                        </span>
-	                        <!-- ko if: slicer.hasAction(node) -->
-	                        <a href="javascript:void(0)" class="node-text" data-bind="text: node.getLabel(), click: function() {slicer.click(node);}"></a>
-	                        <!-- /ko -->
-	                        <!-- ko if: !slicer.hasAction(node) -->
-	                        <span class="node-text" data-bind="text: node.getLabel(), style:{width: ($root.width() - 40 - 20 * indentation - ($index() < 2 ? 50 : 0)) + 'px'}"></span>
-	                        <!-- /ko -->
-	                    </span>
-	                </div>
-	            </div>
-	            <div id="treeview-wires" data-bind="foreach: visibleWires()">
-	                <div class="wire"  data-bind="style: {
+            <div id="treeview">
+                <div id="treeview-lines" data-bind="foreach: visibleLines()">
+                    <div data-bind="style: {'paddingLeft': indentation * 20 + 'px'}, css: {node: true, open: node.open, 'internal-node': node.canHaveChildren()}">
+                        <span class="disclosure-icon" data-bind="click: function() {$parent.toggleNodeOpen(node);}"></span>
+
+                        <span class="node-label">
+                            <span class="node-label-wire"></span>
+                            <span class="node-icons" data-bind="foreach: slicer.getIcons(node)">
+                                <span data-bind="attr: {'class': 'icon ' + image}"></span>
+                            </span>
+                            <a href="javascript:void(0)" class="node-text" data-bind="visible:slicer.hasAction(node), text: node.getLabel(), click: function() {slicer.click(node);}"></a>
+                            <span class="node-text" data-bind="visible: !slicer.hasAction(node), text: node.getLabel(), style:{width: ($root.width() - 40 - 20 * indentation - ($index() < 2 ? 50 : 0)) + 'px'}"></span>
+                        </span>
+                    </div>
+                </div>
+                <div id="treeview-wires" data-bind="foreach: visibleWires()">
+                    <div class="wire"  data-bind="style: {
 	                    'left': (29 + indentation * 20) + 'px',
 	                    'top': (16 + offset * 20) + 'px',
 	                    'height': (-7 + height * 20) + 'px',
 	                        }"></div>
-	            </div>
-	            <div id="scrollbar" class="unselectable"><div id="scrollbar-viewport" data-bind="scrollbar: scrollbar, scrollbarWheel: '#treeview-lines'"></div></div>
-        	</div>
-            <p><a href="javascript:void(0);" data-bind="click: function() {window.location.reload();}">Reset</a></p>
+                </div>
+                <div id="scrollbar" class="unselectable"><div id="scrollbar-viewport" data-bind="scrollbar: scrollbar, scrollbarWheel: '#treeview-lines'"></div></div>
+            </div>
         </div>
-        <!-- /ko -->
         <div id="separator" data-bind="style: {left: (width() + 15) + 'px'}"></div>
         <div id="social">
-        	<div style="float: right">by <a href="http://samuelrossille.com/home/">samuelrossille.com</a></div>
-        	
+            <div style="float: right">by <a href="http://samuelrossille.com/home/">samuelrossille.com</a></div>
+
             <span class="social-button googleplus">
                 <div class="g-plusone" data-size="medium" data-href="http://samuelrossille.com/json-slicer/"></div>
             </span>
@@ -99,18 +91,18 @@
                 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://samuelrossille.com/json-slicer/">Tweet</a>
             </span>
         </div>
-        
+
         <div id="ad">
-        	<div style="position: absolute; top: 50%; margin-top: -300px">
-	            <!-- default-right-skyscraper -->
-	            <ins class="adsbygoogle"
-	                 style="display:inline-block;width:160px;height:600px"
-	                 data-ad-client="ca-pub-7637423437834017"
-	                 data-ad-slot="6661356253"></ins>
-        	</div>
+            <div style="position: absolute; top: 50%; margin-top: -300px">
+                <!-- default-right-skyscraper -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:160px;height:600px"
+                     data-ad-client="ca-pub-7637423437834017"
+                     data-ad-slot="6661356253"></ins>
+            </div>
         </div>
-        
-        
+
+
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.6/jquery.mousewheel.min.js"></script>
@@ -120,7 +112,7 @@
         <script src="js/scrollbar-custom-binding.js"></script>
         <script src="js/json-slicer.js"></script>
         <!-- /build -->
-        
+
         <!-- Social Buttons -->
 
         <script type="text/javascript">

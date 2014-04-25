@@ -1,7 +1,7 @@
 (function() {
-	window.DEFAULT_JSON_STRING = '{\n    "hint": "Paste JSON here"\n}'
-		;
-	
+    window.DEFAULT_JSON_STRING = '{\n    "hint": "Paste JSON here"\n}'
+            ;
+
     var treeviewViewModel = {
         treeview: null,
         position: 0,
@@ -19,34 +19,46 @@
             this.updateVisibleLines();
         },
         scrollToPosition: function(position) {
-        	if(this.position !== position) {
-        		this.position = position;
-        		this.updateVisibleLines();
-        	}
+            if (this.position !== position) {
+                this.position = position;
+                this.updateVisibleLines();
+            }
         },
         updateVisibleLines: function() {
-            var maxVisibleLines = Math.floor($(".control-panel").height() / 20);
-            var startIndex = this.position;
-            var endIndex = this.position + maxVisibleLines;
-            var view = this.treeview.getTreeLines(startIndex, endIndex + 1);
-            this.visibleLines(view.viewLines);
-            this.visibleWires(view.viewWires);
-            this.scrollbar({
-                viewportHeight: endIndex - startIndex,
-                totalHeight: view.totalLines,
-                position: startIndex,
-                scrollToPosition: $.proxy(this.scrollToPosition, this)
-            });
+            console.log();
+            var newHeight = $("#json-slicer").height();
+            if (newHeight > 0) {
+                var maxVisibleLines = Math.floor($("#json-slicer").height() / 20);
+                var startIndex = this.position;
+                var endIndex = this.position + maxVisibleLines;
+                var view = this.treeview.getTreeLines(startIndex, endIndex + 1);
+                this.visibleLines(view.viewLines);
+                this.visibleWires(view.viewWires);
+                this.scrollbar({
+                    viewportHeight: endIndex - startIndex,
+                    totalHeight: view.totalLines,
+                    position: startIndex,
+                    scrollToPosition: $.proxy(this.scrollToPosition, this)
+                });
+            }
+            else {
+                var self = this;
+                setTimeout(function() {
+                    self.updateVisibleLines();
+                }, 100);
+            }
+
+
         }
     };
 
     $(window).resize(function() {
         treeviewViewModel.updateVisibleLines();
     });
-    
-        
+
+
     var jsonSlicerViewModel = {
-    	width: ko.observable(null),
+        width: ko.observable(null),
         treeview: ko.observable(null),
         jsonString: ko.observable(window.DEFAULT_JSON_STRING),
         showFromTextarea: function() {
@@ -55,7 +67,7 @@
             try {
                 value = JSON.parse(json);
             }
-            catch(e) {
+            catch (e) {
                 alert("This JSON is invalid. Please try something else.");
                 return;
             }
@@ -65,25 +77,25 @@
             this.treeview(treeviewViewModel);
         },
         showExample: function() {
-        	$("head").append('<script type="text/javascript" src="js/example.js"></script>');
+            $("head").append('<script type="text/javascript" src="js/example.js"></script>');
         }
     };
 
     window.slicer = window.slicer || {};
-    
+
     window.slicer.plugins = window.slicer.plugins || {};
-    
+
     window.slicer.getIcons = function(node) {
         var icons = [];
         _.each(this.plugins, function(plugin) {
             var icon = plugin.getIcon && plugin.getIcon(node);
-            if(icon) {
+            if (icon) {
                 icons.push(icon);
             }
         });
         return _.sortBy(icons, "rank");
     };
-    
+
     window.slicer.supports = function(node) {
         var supports = false;
         _.each(this.plugins, function(plugin) {
@@ -99,12 +111,12 @@
         });
         return hasAction;
     };
-    
+
     window.slicer.click = function(node) {
         var clicks = [];
         _.each(this.plugins, function(plugin) {
             var click = plugin.click && plugin.click(node);
-            if(click) {
+            if (click) {
                 clicks.push(click);
             }
         });
@@ -113,7 +125,7 @@
             click.callback(node);
         });
     };
-    
+
     window.slicer.plugins.string = {
         supports: function(node) {
             return typeof node.value === "string";
@@ -122,7 +134,7 @@
             return false;
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.string.supports(node)) {
+            if (window.slicer.plugins.string.supports(node)) {
                 return {rank: 0, image: "string"};
             }
             else {
@@ -139,7 +151,7 @@
             return false;
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.number.supports(node)) {
+            if (window.slicer.plugins.number.supports(node)) {
                 return {rank: 0, image: "number"};
             }
             else {
@@ -147,7 +159,7 @@
             }
         }
     };
-	
+
     window.slicer.plugins.boolean = {
         supports: function(node) {
             return typeof node.value === "boolean";
@@ -156,7 +168,7 @@
             return false;
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.boolean.supports(node)) {
+            if (window.slicer.plugins.boolean.supports(node)) {
                 return {rank: 0, image: "boolean"};
             }
             else {
@@ -164,7 +176,7 @@
             }
         }
     };
-	
+
     window.slicer.plugins.empty = {
         supports: function(node) {
             return node.value === null;
@@ -173,7 +185,7 @@
             return false;
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.empty.supports(node)) {
+            if (window.slicer.plugins.empty.supports(node)) {
                 return {rank: 0, image: "empty"};
             }
             else {
@@ -181,7 +193,7 @@
             }
         }
     };
-    
+
     window.slicer.plugins.array = {
         supports: function(node) {
             return _.isArray(node.value);
@@ -190,7 +202,7 @@
             return _.isArray(node.value);
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.array.supports(node)) {
+            if (window.slicer.plugins.array.supports(node)) {
                 return {rank: 0, image: "array"};
             }
             else {
@@ -198,21 +210,23 @@
             }
         },
         click: function(node) {
-            if(_.isArray(node.value)) {
+            if (_.isArray(node.value)) {
                 var keys = {};
                 _.each(node.value, function(line) {
-                	var type = typeof line;
-                	if(type === "object") {
-                		_.each(line, function(value, key) {
-                			keys[key] = true;
-                		});
-                	}
-                	else {
-                		var key =  "<" + type.substring(0, 1).toUpperCase() + type.substring(1) + ">";
-                		keys[key] = false;
-                	}
+                    var type = typeof line;
+                    if (type === "object") {
+                        _.each(line, function(value, key) {
+                            keys[key] = true;
+                        });
+                    }
+                    else {
+                        var key = "<" + type.substring(0, 1).toUpperCase() + type.substring(1) + ">";
+                        keys[key] = false;
+                    }
                 });
-                var columns = _.sortBy(_.keys(keys), function(key) {return key.toLowerCase();});
+                var columns = _.sortBy(_.keys(keys), function(key) {
+                    return key.toLowerCase();
+                });
                 var $table = $('<table><thead><tr></tr></thead><tbody></tbody></table>');
                 var $headerLine = $table.find("thead > tr");
                 var $tbody = $table.find("tbody");
@@ -228,49 +242,49 @@
                 });
 
 
-                
+
                 $("#detail-area").empty()
-                .append($('<button id="#copy-to-excel">Copy to Excel (TSV)</button>').click(function() {
-                	var textarea = $("<textarea></textarea>");
-                	var backdrop = $('<div class="popup-backdrop"></div>');
-                	var popup = $('<div class="popup"><span>Now hit CTRL+C</span></div>');
-                	var close = $("<button>Close</button>");
-                	var sb = [];
-                	_.each(columns, function(column) {
-                        sb.push(column);
-                        sb.push("\t");
-                    });
-                    sb.push("\n");
-                    _.each(node.value, function(line) {
-                        _.each(columns, function(column) {
-                            sb.push(keys[column] ? line[column] : line);
-                            sb.push("\t");
-                        });
-                        sb.push("\n");
-                    });
-                    textarea.val(sb.join(""));
-                    var closeFunction = function() {
-                    	popup.remove();
-                    	backdrop.remove();
-                    };
-                    close.click(closeFunction);
-                    popup.append(textarea).append(close);
-                    $(document.body).append(backdrop).append(popup);
-                    setTimeout(function() {
-                    	textarea.select();
-        		    }, 1);
-                    textarea.keyup(function(event) {
-                    	if(event.which == 27) {
-                    		closeFunction();
-                    	}
-                    });
-                }))
-                .append($table);
+                        .append($('<button id="#copy-to-excel">Copy to Excel (TSV)</button>').click(function() {
+                            var textarea = $("<textarea></textarea>");
+                            var backdrop = $('<div class="popup-backdrop"></div>');
+                            var popup = $('<div class="popup"><span>Now hit CTRL+C</span></div>');
+                            var close = $("<button>Close</button>");
+                            var sb = [];
+                            _.each(columns, function(column) {
+                                sb.push(column);
+                                sb.push("\t");
+                            });
+                            sb.push("\n");
+                            _.each(node.value, function(line) {
+                                _.each(columns, function(column) {
+                                    sb.push(keys[column] ? line[column] : line);
+                                    sb.push("\t");
+                                });
+                                sb.push("\n");
+                            });
+                            textarea.val(sb.join(""));
+                            var closeFunction = function() {
+                                popup.remove();
+                                backdrop.remove();
+                            };
+                            close.click(closeFunction);
+                            popup.append(textarea).append(close);
+                            $(document.body).append(backdrop).append(popup);
+                            setTimeout(function() {
+                                textarea.select();
+                            }, 1);
+                            textarea.keyup(function(event) {
+                                if (event.which == 27) {
+                                    closeFunction();
+                                }
+                            });
+                        }))
+                        .append($table);
             }
         }
     };
-    
-        
+
+
     window.slicer.plugins.object = {
         supports: function(node) {
             return _.isObject(node.value) && !_.isArray(node.value);
@@ -279,7 +293,7 @@
             return false;
         },
         getIcon: function(node) {
-            if(window.slicer.plugins.object.supports(node)) {
+            if (window.slicer.plugins.object.supports(node)) {
                 return {rank: 0, image: "object"};
             }
             else {
@@ -287,83 +301,81 @@
             }
         }
     };
-    
-    window.watchTextarea = function() {
-		var oldValue = null;
-		var intervalVariable = null;
-		intervalVariable = setInterval(function() {
-			var currentValue = $('textarea').val();
-			if(oldValue === null) {
-				oldValue = currentValue;
-			} else if (currentValue !== oldValue) {
-				try {
-					var jsonData = JSON.parse(currentValue);
-					$('textarea').css("color", "inherit");
-					clearInterval(intervalVariable);
-					var node = new Node(jsonData);
-			        if(node.canHaveChildren()) {
-			        	node.setOpen(true);
-			        }
-			        var treeview = new Treeview(node);
-			        treeviewViewModel.setTreeview(treeview);
-			        jsonSlicerViewModel.treeview(treeviewViewModel);
-				}
-				catch(e) {
-					$('textarea').css("color", "red");
-				}
-			}
-		}, 200);
-	};
-	
-	var panelWidth = null;
-	
-	var setPanelWidth = function(width) {
-		panelWidth = width;
-		jsonSlicerViewModel.width(width);
-	};
-	
-	setPanelWidth(400);
 
-	ko.applyBindings(jsonSlicerViewModel, document.body);
+    var watchTextarea = function() {
+        var oldValue = null;
+        setInterval(function() {
+            var currentValue = $('textarea').val();
+            if (currentValue !== oldValue) {
+                try {
+                    var jsonData = JSON.parse(currentValue);
+                    $('textarea').css("color", "inherit");
+                    var node = new Node(jsonData);
+                    if (node.canHaveChildren()) {
+                        node.setOpen(true);
+                    }
+                    var treeview = new Treeview(node);
+                    treeviewViewModel.setTreeview(treeview);
+                    jsonSlicerViewModel.treeview(treeviewViewModel);
+                    oldValue = currentValue;
+                }
+                catch (e) {
+                    $('textarea').css("color", "red");
+                }
+            }
+        }, 200);
+    };
 
-	$(function() {
-		$('textarea').focus(function() {
-		    var $this = $(this);
+    var panelWidth = null;
 
-		    $this.select();
+    var setPanelWidth = function(width) {
+        if (width !== panelWidth) {
+            panelWidth = width;
+            jsonSlicerViewModel.width(width);
+        }
+    };
 
-		    window.setTimeout(function() {
-		        $this.select();
-		    }, 1);
+    setPanelWidth(400);
 
-		    // Work around WebKit's little problem
-		    function mouseUpHandler() {
-		        // Prevent further mouseup intervention
-		        $this.off("mouseup", mouseUpHandler);
-		        return false;
-		    }
+    ko.applyBindings(jsonSlicerViewModel, document.body);
 
-		    $this.mouseup(mouseUpHandler);
-		});
-		
-		
+    $(function() {
+        $('textarea').focus(function() {
+            var $this = $(this);
+
+            $this.select();
+
+            window.setTimeout(function() {
+                $this.select();
+            }, 1);
+
+            // Work around WebKit's little problem
+            function mouseUpHandler() {
+                // Prevent further mouseup intervention
+                $this.off("mouseup", mouseUpHandler);
+                return false;
+            }
+
+            $this.mouseup(mouseUpHandler);
+        });
+
         $("#separator").mousedown(function(event) {
-			$(document.body).addClass("unselectable");
-			$("#separator").addClass("active");
-            
-			var panelWidthStart = panelWidth;
-			
-			var xDragStart = event.pageX;
-            
+            $(document.body).addClass("unselectable");
+            $("#separator").addClass("active");
+
+            var panelWidthStart = panelWidth;
+
+            var xDragStart = event.pageX;
+
             var handler = function(event) {
                 var x = event.pageX;
                 var deltaPx = x - xDragStart;
                 var targetWidth = panelWidthStart + deltaPx;
-                if(targetWidth < 80) {
-                	targetWidth = 80;
+                if (targetWidth < 80) {
+                    targetWidth = 80;
                 }
-                if(targetWidth > $(window).width() - 100) {
-                	targetWidth = $(window).width() - 100;
+                if (targetWidth > $(window).width() - 100) {
+                    targetWidth = $(window).width() - 100;
                 }
                 setPanelWidth(targetWidth);
             };
@@ -371,12 +383,12 @@
             $(document).on("mousemove", handler);
             $(document).one("mouseup", function() {
                 $(document).unbind("mousemove", handler);
-				$(document.body).removeClass("unselectable");
-				$("#separator").removeClass("active");
+                $(document.body).removeClass("unselectable");
+                $("#separator").removeClass("active");
             });
         });
 
-		
-		window.watchTextarea();
-	});
+
+        watchTextarea();
+    });
 })();

@@ -1,3 +1,4 @@
-build-result/
-node_modules/
-work/
+/build-result/
+/node_modules/
+/work/
+/nbproject/

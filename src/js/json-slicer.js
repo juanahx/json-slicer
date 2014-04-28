@@ -308,7 +308,7 @@
             var currentValue = $('textarea').val();
             if (currentValue !== oldValue) {
                 try {
-                    var jsonData = JSON.parse(currentValue);
+                    var jsonData = eval(currentValue);
                     $('textarea').css("color", "inherit");
                     var node = new Node(jsonData);
                     if (node.canHaveChildren()) {

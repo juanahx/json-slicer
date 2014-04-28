@@ -26,7 +26,6 @@ module.exports = function(grunt) {
 		qunit : {},
 		jshint : {
 			options : {
-                evil: true,
 				globals : {
 					jQuery : true,
 					console : true,

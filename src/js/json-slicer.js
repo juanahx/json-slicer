@@ -194,23 +194,12 @@
         }
     };
 
-    window.slicer.plugins.array = {
-        supports: function(node) {
-            return _.isArray(node.value);
-        },
+    window.slicer.plugins.nestedTables = {
         hasAction: function(node) {
-            return _.isArray(node.value);
-        },
-        getIcon: function(node) {
-            if (window.slicer.plugins.array.supports(node)) {
-                return {rank: 0, image: "array"};
-            }
-            else {
-                return null;
-            }
+            return _.isArray(node.value) || _.isObject(node.value);
         },
         click: function(node) {
-            if (_.isArray(node.value)) {
+            if (_.isArray(node.value) || _.isObject(node.value)) {
                 var keys = {};
                 _.each(node.value, function(line) {
                     var type = typeof line;
@@ -220,7 +209,7 @@
                         });
                     }
                     else {
-                        var key = "<" + type.substring(0, 1).toUpperCase() + type.substring(1) + ">";
+                        var key = "<value>";
                         keys[key] = false;
                     }
                 });
@@ -230,15 +219,26 @@
                 var $table = $('<table><thead><tr></tr></thead><tbody></tbody></table>');
                 var $headerLine = $table.find("thead > tr");
                 var $tbody = $table.find("tbody");
+                $headerLine.append($("<th>#</th>"));
                 _.each(columns, function(column) {
                     $headerLine.append($("<th></th>").text(column));
                 });
-                _.each(node.value, function(line) {
-                    var $line = $("<tr></tr>");
+                _.each(node.value, function(line, key) {
+                    var $line;
+                    if (line === null || typeof line === "undefined") {
+                        $line = $('<tr><td colspan="' + columns.length + '"></td></tr>');
+                    }
+                    else {
+                        $line = $("<tr></tr>");
+                        _.each(columns, function(column) {
+                            $line.append($("<td></td>").text(keys[column]
+                                    ? ((typeof line === "object") ? line[column] : "")
+                                    : line));
+                        });
+                    }
+
+                    $line.prepend($("<td></td>").text(key));
                     $tbody.append($line);
-                    _.each(columns, function(column) {
-                        $line.append($("<td></td>").text(keys[column] ? line[column] : line));
-                    });
                 });
 
 
@@ -280,6 +280,23 @@
                             });
                         }))
                         .append($table);
+            }
+        }
+    };
+
+    window.slicer.plugins.array = {
+        supports: function(node) {
+            return _.isArray(node.value);
+        },
+        hasAction: function(node) {
+            return false;
+        },
+        getIcon: function(node) {
+            if (window.slicer.plugins.array.supports(node)) {
+                return {rank: 0, image: "array"};
+            }
+            else {
+                return null;
             }
         }
     };

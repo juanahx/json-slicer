@@ -231,9 +231,7 @@
                     else {
                         $line = $("<tr></tr>");
                         _.each(columns, function(column) {
-                            $line.append($("<td></td>").text(keys[column]
-                                    ? ((typeof line === "object") ? line[column] : "")
-                                    : line));
+                            $line.append($("<td></td>").text(keys[column] ? ((typeof line === "object") ? line[column] : "") : line));
                         });
                     }
 
